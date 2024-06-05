@@ -4,4 +4,4 @@ AELF is simple api that provides daily gospel.
 
 INSTALLATION
 
-Run in your terminal: python -m pip install -r requirements.txt
+Run in your terminal: python3 -m pip install -r requirements.txt
