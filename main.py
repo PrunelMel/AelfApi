@@ -46,7 +46,7 @@ def get_all_lectures(start:str, end:str, zone:str = "afrique"):
         
         response = requests.get(f"https://api.aelf.org//v1/messes/{dt}/{zone}")
 
-        res.append({"date":start_date.isoformat(),"ref":response.json()["messes"][0]['lectures'][2]["ref"]})
+        res.append({"date":dt,"ref":response.json()["messes"][0]['lectures'][2]["ref"]})
         
 
     return{"status_code":"200", "data":res}
