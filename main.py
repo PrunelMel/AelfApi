@@ -16,7 +16,7 @@ async def get_lecture(date:str = str(datetime.date.today()) , zone:str = "afriqu
     response = requests.get(f"https://api.aelf.org//v1/messes/{date}/{zone}")
 
 
-    return {"status_code":response.status_code, "data":{"date":datetime.date.today(), "ref":response.json()["messes"][0]['lectures'][2]["ref"]}}
+    return {"status_code":response.status_code, "data":{"date":datetime.date.today(), "ref":response.json()["messes"][0]['lectures'][2]["ref"], "text":["messes"][0]['lectures'][2]['contenu']}}
 
 
 @app.get("/lectures")
