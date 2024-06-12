@@ -3,7 +3,6 @@ import requests
 import datetime
 app = FastAPI()
 
-api_url:str = "https://api.aelf.org//v1/lectures"
 
 @app.get("/")
 def home():
