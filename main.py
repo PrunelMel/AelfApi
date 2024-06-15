@@ -1,13 +1,44 @@
 from fastapi import FastAPI, HTTPException
 import requests
 import datetime
+
+
 app = FastAPI()
 
+
+def tomorrow(date:str):
+    """Allow to get the following date of given date.\n
+        Date must be in isoformat
+    """
+    dateList = date.split('-')
+
+    firstDate = datetime.date(int(dateList[0]), int(dateList[1]), int(dateList[2]))
+
+    delta = datetime.timedelta(days=1)
+
+    tomorrowDate = firstDate + delta
+
+    return tomorrowDate.isoformat()
+
+
+def month (date:str):
+    """Allow to get list of dates relate to month.\n 
+        Date must be in isoformat
+    """
+    new_date:str = date+"-01"
+    monthDate:list = []
+    monthDate.append(new_date)
+    while tomorrow(monthDate[-1]).split("-")[1] == date.split("-")[1]:
+        monthDate.append(tomorrow(monthDate[-1]))
+
+    return monthDate
+    
 
 @app.get("/")
 def home():
 
     return {}
+    
 
 @app.get("/lecture")
 async def get_lecture(date:str = str(datetime.date.today()) , zone:str = "afrique"):
@@ -50,8 +81,20 @@ def get_all_lectures(start:str, end:str, zone:str = "afrique"):
 
     return{"status_code":"200", "data":res}
 
-@app.put("/delete/{id}")
-async def get_all_proxies(id:int):
 
-    return {}
+@app.get("/month")
+async def get_all_monthly(date:str, zone:str="afrique"):
+
+    dates = month(date)
+
+    res:list = []
+
+    for el in dates:
+
+        response = requests.get(f"https://api.aelf.org//v1/messes/{el}/{zone}")
+
+        res.append({"date":el,"ref":response.json()["messes"][0]['lectures'][-1]["ref"]})
+
+    return {"status_code":"200", "data":res}
+
 
