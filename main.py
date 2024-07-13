@@ -55,7 +55,7 @@ async def get_lecture(date:str = str(datetime.date.today()) , zone:str = "afriqu
         return {"status":response.status_code, "response":response.text, "message":e}
 
 
-@app.get("/lectures"
+@app.get("/lectures")
 def get_all_lectures(start:str, end:str, zone:str = "afrique"):
 
     start_list = start.split('-')
