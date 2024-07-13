@@ -51,8 +51,8 @@ async def get_lecture(date:str = str(datetime.date.today()) , zone:str = "afriqu
             #print(res)
             return {"status_code":response.status_code, "data":{"date":date, "ref":response.json()["messes"][0]['lectures'][2]["ref"], "text":response.json()["messes"][0]['lectures'][2]['contenu']}}
 
-        except Exception as e:
-            return {"status":response.status_code, "response":response.text, "message":e}
+    except Exception as e:
+        return {"status":response.status_code, "response":response.text, "message":e}
 
 
 @app.get("/lectures"
