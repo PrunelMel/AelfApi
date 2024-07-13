@@ -44,12 +44,18 @@ def home():
 async def get_lecture(date:str = str(datetime.date.today()) , zone:str = "afrique"):
     
     response = requests.get(f"https://api.aelf.org//v1/messes/{date}/{zone}")
+    try:
+        response = requests.get(f"https://api.aelf.org//v1/messes/{date}/{zone}")
+        if response.status_code == 200:
+            #res = {"status_code":response.status_code, "data":{"date":datetime.date.today().strftime("%d %B, %Y"), "ref":response.json()}}
+            #print(res)
+            return {"status_code":response.status_code, "data":{"date":date, "ref":response.json()["messes"][0]['lectures'][2]["ref"], "text":response.json()["messes"][0]['lectures'][2]['contenu']}}
+
+        except Exception as e:
+            return {"status":response.status_code, "response":response.text, "message":e}
 
 
-    return {"status_code":response.status_code, "data":{"date":date, "ref":response.json()["messes"][0]['lectures'][2]["ref"], "text":response.json()["messes"][0]['lectures'][2]['contenu']}}
-
-
-@app.get("/lectures")
+@app.get("/lectures"
 def get_all_lectures(start:str, end:str, zone:str = "afrique"):
 
     start_list = start.split('-')
